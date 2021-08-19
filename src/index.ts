@@ -23,7 +23,6 @@ program.parse(process.argv);
 const options = program.opts();
 
 if (options.config) {
-  console.log("Add config", options.config);
   config.set("download_path", options.config);
 }
 
@@ -42,21 +41,22 @@ program.argument("<url>", "Youtube URL").action(async (url) => {
 
     const metas = await ytdl.getInfo(url);
 
+    const finalPath = join(
+      `${config.get("download_path")}`,
+      "/",
+      `${metas.videoDetails.title}.mp3`
+    );
     ffmpeg(stream)
       .audioBitrate(320)
-      .save(
-        join(
-          `${config.get("download_path")}`,
-          "/",
-          `${metas.videoDetails.title}.mp3`
-        )
-      )
+      .save(finalPath)
       .on("progress", (p) => {
         readline.cursorTo(process.stdout, 0);
         process.stdout.write(`${p.targetSize}kb downloaded`);
       })
       .on("end", () => {
-        console.log(`\ndone, thanks - ${(Date.now() - start) / 1000}s`);
+        console.log(
+          `\ndone, thanks - ${(Date.now() - start) / 1000}s\n${finalPath}}`
+        );
       });
   }
 });
