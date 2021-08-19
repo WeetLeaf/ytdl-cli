@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-
+yarn
 npm run local
 
 ```
