@@ -46,6 +46,8 @@ program.argument("<url>", "Youtube URL").action(async (url) => {
       "/",
       `${metas.videoDetails.title}.mp3`
     );
+    console.log("Downloading ", metas.videoDetails.title);
+
     ffmpeg(stream)
       .audioBitrate(320)
       .save(finalPath)
@@ -55,7 +57,7 @@ program.argument("<url>", "Youtube URL").action(async (url) => {
       })
       .on("end", () => {
         console.log(
-          `\ndone, thanks - ${(Date.now() - start) / 1000}s\n${finalPath}}`
+          `\ndone, thanks - ${(Date.now() - start) / 1000}s\n${finalPath}`
         );
       });
   }
