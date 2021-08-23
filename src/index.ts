@@ -4,7 +4,7 @@ import { redBright } from "chalk";
 import { textSync } from "figlet";
 import { program } from "commander";
 import Conf from "conf";
-import { CliArgs, ConfigType } from "./type";
+import { CliArgs, CliOpts, ConfigType } from "./type";
 import { downloadAudio } from "./utils/download";
 
 const config = new Conf<ConfigType>();
@@ -22,7 +22,7 @@ program
   .option("-c, --config <url>", "Config path")
   .parse(process.argv);
 
-const options = program.opts();
+const options = program.opts<CliOpts>();
 
 if (options.config) {
   config.set("download_path", options.config);

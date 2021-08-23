@@ -5,3 +5,7 @@ export type ConfigType = {
 export type CliArgs = {
   url: string;
 };
+
+export type CliOpts = {
+  config: string;
+};
