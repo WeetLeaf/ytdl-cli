@@ -1,6 +1,6 @@
 {
-  "name": "ytdl-cli",
-  "version": "1.0.0",
+  "name": "ytdl-utils-cli",
+  "version": "0.1.0-pre",
   "description": "",
   "main": "./dist/index.js",
   "bin": {

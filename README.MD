@@ -1,11 +1,9 @@
 # CLI Youtuble download
 
-## Install
+# Install
 
 ```bash
-yarn
-npm run local
-
+npm i -g ytdl-utils-cli
 ```
 
 ## Test
@@ -16,4 +14,11 @@ ytdl https://www.youtube.com/watch?v=bM7SZ5SBzyY --config /User/[username]/Downl
 
 # Once the download path is configured
 ytdl https://www.youtube.com/watch?v=bM7SZ5SBzyY
+```
+
+## Install local
+
+```bash
+yarn
+npm run local
 ```
