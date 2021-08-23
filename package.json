@@ -6,6 +6,9 @@
   "bin": {
     "ytdl": "./dist/index.js"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "type": "commonjs",
   "scripts": {
     "build": "rm -rf ./dist &&  tsc -p .",
