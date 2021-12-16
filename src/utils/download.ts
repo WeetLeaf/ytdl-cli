@@ -1,12 +1,16 @@
 import { mkdirSync, existsSync } from "fs";
 import ytdl from "ytdl-core";
-import readline from "readline";
 import { join } from "path";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
-export const downloadAudio = async (url: string, path: string) => {
+export const downloadAudio = async (
+  url: string,
+  path: string,
+  onStart?: (metas: ytdl.videoInfo) => void,
+  onPogress?: (p: any) => void
+) => {
   if (!existsSync(path)) {
     mkdirSync(path, { recursive: true });
   }
@@ -18,18 +22,20 @@ export const downloadAudio = async (url: string, path: string) => {
   const metas = await ytdl.getInfo(url);
 
   const finalPath = join(`${path}`, "/", `${metas.videoDetails.title}.mp3`);
-  console.log("Downloading ", metas.videoDetails.title);
+  onStart?.(metas);
 
-  ffmpeg(stream)
-    .audioBitrate(320)
-    .save(finalPath)
-    .on("progress", (p) => {
-      readline.cursorTo(process.stdout, 0);
-      process.stdout.write(`${p.targetSize}kb downloaded`);
-    })
-    .on("end", () => {
-      console.log(
-        `\ndone, thanks - ${(Date.now() - start) / 1000}s\n${finalPath}`
-      );
-    });
+  return new Promise<number>((resolve, reject) => {
+    ffmpeg(stream)
+      .audioBitrate(320)
+      .save(finalPath)
+      .on("progress", (p) => {
+        onPogress?.(p);
+      })
+      .on("end", () => {
+        resolve((Date.now() - start) / 1000);
+      })
+      .on("error", (err) => {
+        reject(err);
+      });
+  });
 };
