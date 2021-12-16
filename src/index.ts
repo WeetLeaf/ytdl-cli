@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { redBright } from "chalk";
 import { textSync } from "figlet";
 import { program } from "commander";
 import Conf from "conf";
@@ -14,7 +13,7 @@ const cliArgs: CliArgs = {
   url: "",
 };
 
-console.log(redBright(textSync("YTDL", { horizontalLayout: "full" })));
+console.log(textSync("YTDL", { horizontalLayout: "full" }));
 
 program
   .version("0.1.0")
