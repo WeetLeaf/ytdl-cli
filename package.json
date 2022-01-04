@@ -1,6 +1,6 @@
 {
   "name": "ytdl-utils-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -12,7 +12,6 @@
   "type": "commonjs",
   "scripts": {
     "build": "rm -rf ./dist &&  tsc -p .",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "local": "npm uninstall -g && npm run build && npm i -g"
   },
   "repository": {

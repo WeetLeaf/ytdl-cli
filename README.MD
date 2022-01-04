@@ -1,8 +1,8 @@
 # CLI Youtuble download
 
-Download youtube music or playlist in mp4 format.
-If the playlist is in private, it won’t work. But it will fallback to the single video of the link.
-If the URL contains the param "list" it will download the entire playlist
+Download youtube music or playlist in mp3 format.  
+If the playlist is in private, it won’t work. But it will fallback to the single video of the link.  
+If the URL contains the param "list" it will download the entire playlist.  
 
 # Install
 
