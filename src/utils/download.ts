@@ -8,8 +8,7 @@ ffmpeg.setFfmpegPath(ffmpegPath.path);
 export const downloadAudio = async (
   url: string,
   path: string,
-  onStart?: (metas: ytdl.videoInfo) => void,
-  onPogress?: (p: any) => void
+  onStart?: (metas: ytdl.videoInfo) => void
 ) => {
   if (!existsSync(path)) {
     mkdirSync(path, { recursive: true });
@@ -28,9 +27,6 @@ export const downloadAudio = async (
     ffmpeg(stream)
       .audioBitrate(320)
       .save(finalPath)
-      .on("progress", (p) => {
-        onPogress?.(p);
-      })
       .on("end", () => {
         resolve((Date.now() - start) / 1000);
       })

@@ -39,44 +39,38 @@ const processDownload = async () => {
 
   const url = new URL(cliArgs.url);
   const list = url.searchParams.get("list");
-  if (!list) {
-    const time = await downloadAudio(
-      cliArgs.url,
-      downloadPath,
-      (metas) => {
-        console.log("Downloading ", metas.videoDetails.title);
-      },
-      (p) => {
-        readline.cursorTo(process.stdout, 0);
-        process.stdout.write(`${p.targetSize}kb downloaded\n`);
-      }
-    );
-    console.log(`Downloaded in ${time} seconds`);
+  if (list) {
+    try {
+      const playlist = await ytpl(list);
+      const playlistLenght = playlist.items.length;
+      let downloadedItems = 0;
+      let failedDownloads: string[] = [];
 
-    return;
-  }
-  const playlist = await ytpl(list);
-  const playlistLenght = playlist.items.length;
-  let downloadedItems = 0;
-  let failedDownloads: string[] = [];
+      console.log(`Downloading ${playlistLenght} videos`);
+      await Promise.all(
+        playlist.items.map(async (item) => {
+          try {
+            await downloadAudio(item.url, downloadPath);
+            downloadedItems++;
+          } catch (error) {
+            failedDownloads.push(item.title.concat(" - ", item.url));
+          }
 
-  console.log(`Downloading ${playlistLenght} videos`);
-  await Promise.all(
-    playlist.items.map(async (item) => {
-      try {
-        await downloadAudio(item.url, downloadPath);
-        downloadedItems++;
-      } catch (error) {
-        failedDownloads.push(item.title.concat(" - ", item.url));
-      }
-
-      console.log(
-        `${downloadedItems}/${playlistLenght} ${item.title} downloaded`
+          console.log(
+            `${downloadedItems}/${playlistLenght} ${item.title} downloaded`
+          );
+        })
       );
-    })
-  );
-  console.log(`\n\n${failedDownloads.length} items failed to download`);
-  console.log(failedDownloads.join("\n"));
+      console.log(`\n\n${failedDownloads.length} items failed to download`);
+      console.log(failedDownloads.join("\n"));
+    } catch (error) {
+      console.error("Error donloading playlist, fallback to single video");
+    }
+  }
+  const time = await downloadAudio(cliArgs.url, downloadPath, (metas) => {
+    console.log("Downloading ", metas.videoDetails.title);
+  });
+  console.log(`Downloaded in ${time} seconds`);
 };
 
 processDownload();
