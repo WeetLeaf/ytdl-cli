@@ -63,6 +63,7 @@ const processDownload = async () => {
       );
       console.log(`\n\n${failedDownloads.length} items failed to download`);
       console.log(failedDownloads.join("\n"));
+      process.exit(0);
     } catch (error) {
       console.error("Error donloading playlist, fallback to single video");
     }
