@@ -110,10 +110,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-16.6.2.tgz"
   integrity sha512-LSw8TZt12ZudbpHc6EkIyDM3nHVWKYrAvGy6EAJfNfjusbwnThqjqxUKKRwuV3iWYeW/LYMzNgaq3MaLffQ2xA==
 
-"@types/node@^17.0.0":
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.0.tgz#62797cee3b8b497f6547503b2312254d4fe3c2bb"
-  integrity sha512-eMhwJXc931Ihh4tkU+Y7GiLzT/y/DBNpNtr4yU9O2w3SYBsr9NaOPhQlLKRmoWtI54uNwuo0IOUFQjVOTZYRvw==
+"@types/node@^17.0.8":
+  version "17.0.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.8.tgz#50d680c8a8a78fe30abe6906453b21ad8ab0ad7b"
+  integrity sha512-YofkM6fGv4gDJq78g4j0mMuGMkZVxZDgtU0JRdx6FgiJDG+0fY0GKVolOV8WqVmEhLCXkQRjwDdKyPxJp/uucg==
 
 acorn-walk@^8.1.1:
   version "8.1.1"
@@ -370,7 +370,7 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-ts-node@^10.4.0:
+ts-node@^10.2.1:
   version "10.4.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.4.0.tgz#680f88945885f4e6cf450e7f0d6223dd404895f7"
   integrity sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==
@@ -417,10 +417,10 @@ yn@3.1.1:
   resolved "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
-ytdl-core@^4.9.2:
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.9.2.tgz#c2d1ec44ee3cabff35e5843c6831755e69ffacf0"
-  integrity sha512-aTlsvsN++03MuOtyVD4DRF9Z/9UAeeuiNbjs+LjQBAiw4Hrdp48T3U9vAmRPyvREzupraY8pqRoBfKGqpq+eHA==
+ytdl-core@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/ytdl-core/-/ytdl-core-4.10.0.tgz#0835cb411677684539fac2bcc10553f6f58db3e1"
+  integrity sha512-RCCoSVTmMeBPH5NFR1fh3nkDU9okvWM0ZdN6plw6I5+vBBZVUEpOt8vjbSgprLRMmGUsmrQZJhvG1CHOat4mLA==
   dependencies:
     m3u8stream "^0.8.4"
     miniget "^4.0.0"
