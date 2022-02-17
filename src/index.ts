@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-import { textSync } from "figlet";
 import { program } from "commander";
 import Conf from "conf";
-import { downloadAudio } from "./utils/download";
+import { textSync } from "figlet";
 import ytpl from "ytpl";
-import readline from "readline";
+import { downloadAudio } from "./utils/download";
 
 const config = new Conf<ConfigType>();
 
