@@ -35,7 +35,7 @@ export const downloadPlaylist = async (listUrl: string) => {
   const items = playlist.items;
 
   const downloads = items.map((item) => {
-    const bar = multibar.create(item.durationSec ?? 200, 0, {});
+    const bar = multibar.create(200, 0, {});
     return downloadItem(bar, item.url);
   });
 
@@ -72,6 +72,7 @@ export const downloadItem = async (bar: SingleBar, url: string) => {
     "/",
     `${metas.videoDetails.title}.mp3`
   );
+  bar.setTotal(parseInt(metas.videoDetails.lengthSeconds));
 
   return new Promise<ytdl.videoInfo>((res, rej) => {
     ffmpeg(stream)
