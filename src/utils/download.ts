@@ -15,6 +15,7 @@ export const downloadAudio = async (
   }
   const stream = ytdl(url, {
     quality: "highestaudio",
+    filter: "audioonly",
   });
   const start = Date.now();
 
