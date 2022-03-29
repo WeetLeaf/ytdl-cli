@@ -34,21 +34,35 @@ export const downloadPlaylist = async (listUrl: string) => {
   );
   const items = playlist.items;
 
-  const downloads = items.map((item) => {
-    const bar = multibar.create(200, 0, {});
-    return downloadItem(bar, item.url);
-  });
+  // Create batches of 5 videos
+  const batchs = [];
+  for (let i = 0; i < items.length; i += 5) {
+    batchs.push(items.slice(i, i + 5));
+  }
 
-  const dls = await Promise.allSettled(downloads);
-  multibar.stop();
-  console.log("\n");
-  dls.forEach((dl) => {
+  // Download each batch
+  const allDls: PromiseSettledResult<ytdl.videoInfo>[] = [];
+  for (const batch of batchs) {
+    const downloads = batch.map((item) => {
+      const bar = multibar.create(200, 0, {});
+      return downloadItem(bar, item.url);
+    });
+
+    const dls = await Promise.allSettled(downloads);
+
+    allDls.push(...dls);
+  }
+
+  allDls.forEach((dl) => {
     if (dl.status === "rejected") {
       console.error("❌", dl.reason);
     } else {
       console.log(`✅ ${dl.value.videoDetails.title} downloaded`);
     }
   });
+
+  multibar.stop();
+  console.log("\n");
 };
 
 export const downloadSingle = async (url: URL) => {
@@ -84,9 +98,6 @@ export const downloadItem = async (bar: SingleBar, url: string) => {
       })
       .on("progress", () => {
         bar.increment(1);
-      })
-      .on("start", () => {
-        bar.update(1, { filename: metas.videoDetails.title });
       })
       .on("error", () => {
         bar.stop();
