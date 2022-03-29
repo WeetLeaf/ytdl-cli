@@ -1,80 +1,33 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import Conf from "conf";
-import { textSync } from "figlet";
-import ytpl from "ytpl";
-import { downloadAudio } from "./utils/download";
-
-const config = new Conf<ConfigType>();
+import figlet from "figlet";
+import { handleConfiguration } from "./services/configuration";
+import { handleDownload } from "./services/download";
 
 const cliArgs: CliArgs = {
   url: "",
 };
 
-console.log(textSync("YTDL", { horizontalLayout: "full" }));
+console.log(figlet.textSync("YTDL", { horizontalLayout: "full" }));
 
 program
   .version("0.1.0")
   .argument("<url>", "Youtube URL")
-  .action((url) => (cliArgs.url = url))
+  .action((url: string) => {
+    cliArgs.url = url;
+  })
   .option("-c, --config <url>", "Config path")
   .parse(process.argv);
 
 const options = program.opts<CliOpts>();
 
-if (options.config) {
-  config.set("download_path", options.config);
-}
+(async () => {
+  handleConfiguration(options, program);
 
-const downloadPath = config.get("download_path");
+  await handleDownload(cliArgs);
 
-const processDownload = async () => {
-  if (!downloadPath) {
-    console.info("You must define a path");
+  if (!process.argv.slice(2).length) {
     program.outputHelp();
-    return;
   }
-
-  const url = new URL(cliArgs.url);
-  const list = url.searchParams.get("list");
-  if (list) {
-    try {
-      const playlist = await ytpl(list);
-      const playlistLenght = playlist.items.length;
-      let downloadedItems = 0;
-      let failedDownloads: string[] = [];
-
-      console.log(`Downloading ${playlistLenght} videos`);
-      await Promise.all(
-        playlist.items.map(async (item) => {
-          try {
-            await downloadAudio(item.url, downloadPath);
-            downloadedItems++;
-          } catch (error) {
-            failedDownloads.push(item.title.concat(" - ", item.url));
-          }
-
-          console.log(
-            `${downloadedItems}/${playlistLenght} ${item.title} downloaded`
-          );
-        })
-      );
-      console.log(`\n\n${failedDownloads.length} items failed to download`);
-      console.log(failedDownloads.join("\n"));
-      process.exit(0);
-    } catch (error) {
-      console.error("Error donloading playlist, fallback to single video");
-    }
-  }
-  const time = await downloadAudio(cliArgs.url, downloadPath, (metas) => {
-    console.log("Downloading ", metas.videoDetails.title);
-  });
-  console.log(`Downloaded in ${time} seconds`);
-};
-
-processDownload();
-
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
-}
+})();
