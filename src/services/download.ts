@@ -6,7 +6,8 @@ import { config } from "./configuration";
 
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
-import { info } from "console";
+import slugify from "slugify";
+
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
 export const handleDownload = async (cliArgs: CliArgs) => {
@@ -68,9 +69,13 @@ export const downloadPlaylist = async (listUrl: string) => {
 export const downloadSingle = async (url: URL) => {
   const bar = new SingleBar({});
   bar.start(200, 0);
-  return downloadItem(bar, url.href).then((res) => {
-    console.log(`\n${res.videoDetails.title} downloaded`);
-  });
+  return downloadItem(bar, url.href)
+    .then((res) => {
+      console.log(`\n${res.videoDetails.title} downloaded`);
+    })
+    .catch((err) => {
+      console.error("❌", err);
+    });
 };
 
 export const downloadItem = async (bar: SingleBar, url: string) => {
@@ -84,7 +89,7 @@ export const downloadItem = async (bar: SingleBar, url: string) => {
   const finalPath = join(
     `${config.download_path}`,
     "/",
-    `${metas.videoDetails.title}.mp3`
+    `${slugify(metas.videoDetails.title)}.mp3`
   );
   bar.setTotal(parseInt(metas.videoDetails.lengthSeconds));
 
@@ -99,9 +104,10 @@ export const downloadItem = async (bar: SingleBar, url: string) => {
       .on("progress", () => {
         bar.increment(1);
       })
-      .on("error", () => {
+      .on("error", (err) => {
         bar.stop();
         rej(`Failed to download ${url}`);
+        console.error(err);
       });
   });
 };
