@@ -17,6 +17,7 @@ export const downloadTrack = async (url: string): Promise<ytdl.videoInfo> => {
     "/",
     `${slugify(metas.videoDetails.title)}.mp3`
   );
+  console.log("🚀 Downloading : ", metas.videoDetails.title);
 
   return new Promise<ytdl.videoInfo>((res, rej) => {
     ffmpeg(stream)
@@ -25,8 +26,8 @@ export const downloadTrack = async (url: string): Promise<ytdl.videoInfo> => {
       .on("end", () => {
         res(metas);
       })
-      .on("error", () => {
-        rej(`Failed to download ${url}`);
+      .on("error", (err) => {
+        rej(`Failed to download ${url}: ${err}`);
       });
   });
 };
