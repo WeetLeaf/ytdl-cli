@@ -5,6 +5,7 @@ If the playlist is in private, it won’t work. But it will fallback to the sing
 If the URL contains the param "list" it will download the entire playlist.  
 
 # Install
+You may need to insall ffmpeg
 
 ```bash
 npm i -g ytdl-utils-cli
