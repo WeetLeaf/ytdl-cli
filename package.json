@@ -1,10 +1,10 @@
 {
   "name": "ytdl-utils-cli",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./dist/src/index.js",
   "bin": {
-    "ytdl": "./dist/index.js"
+    "ytdl": "./dist/src/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

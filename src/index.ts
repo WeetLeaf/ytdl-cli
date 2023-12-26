@@ -4,6 +4,7 @@ import { program } from "commander";
 import figlet from "figlet";
 import { handleConfiguration } from "./services/configuration";
 import { handleDownload } from "./services/download";
+import packageJon from "../package.json"
 
 const cliArgs: CliArgs = {
   url: "",
@@ -12,7 +13,7 @@ const cliArgs: CliArgs = {
 console.log(figlet.textSync("YTDL", { horizontalLayout: "full" }));
 
 program
-  .version("0.1.0")
+  .version(packageJon.version)
   .argument("<url>", "Youtube URL")
   .action((url: string) => {
     cliArgs.url = url;
