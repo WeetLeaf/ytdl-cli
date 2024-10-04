@@ -1,6 +1,6 @@
 import { join } from "path";
 import slugify from "slugify";
-import ytdl from "ytdl-core";
+import ytdl from "@distube/ytdl-core";
 import { config } from "./configuration";
 import ffmpeg from "fluent-ffmpeg";
 
