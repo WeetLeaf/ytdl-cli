@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "commonjs",
+    "module": "CommonJS",
     "lib": ["ESNext", "dom"],
     "declaration": false,
     "outDir": "dist",
     "rootDir": ".",
     "sourceMap": false,
-    "strict": true,
+    "strict": false,
     "types": ["node"],
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   }
 }

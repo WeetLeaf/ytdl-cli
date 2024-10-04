@@ -1,28 +1,17 @@
-import ytdl from "ytdl-core";
-import ytpl from "ytpl";
+import ytdl from "@distube/ytdl-core";
 import { downloadTrack } from "./download.track";
+
+const ytpl = require("@distube/ytpl");
 
 const BATCH_SIZE = 5;
 export const downloadPlaylist = async (listUrl: string) => {
-  let firstPage: ytpl.Result = await ytpl(listUrl, { pages: 1 });
-  const items: ytpl.Item[] = firstPage.items;
-  let nextPage: ytpl.ContinueResult | undefined;
-
-  if (firstPage.continuation) {
-    nextPage = await ytpl.continueReq(firstPage.continuation);
-    items.push(...nextPage.items);
-  }
-
-  while (true) {
-    if (!nextPage?.continuation) break;
-    nextPage = await ytpl.continueReq(nextPage.continuation);
-    items.push(...nextPage.items);
-  }
+  let firstPage = await ytpl(listUrl);
+  const items = firstPage.items;
 
   console.log(`Downloading playlist with ${items.length} items`);
 
   // Create batches of 5 videos
-  const batchs: ytpl.Item[][] = [];
+  const batchs: (typeof items)[] = [];
   for (let i = 0; i < items.length; i += BATCH_SIZE) {
     batchs.push(items.slice(i, i + BATCH_SIZE));
   }
@@ -30,7 +19,7 @@ export const downloadPlaylist = async (listUrl: string) => {
   // Download each batch
   const allDls: PromiseSettledResult<ytdl.videoInfo>[] = [];
   for (const batch of batchs) {
-    const downloads = batch.map((item) => {
+    const downloads = batch.map((item: any[number]) => {
       return downloadTrack(item.url);
     });
 
