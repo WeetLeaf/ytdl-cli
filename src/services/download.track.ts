@@ -1,8 +1,8 @@
+import ytdl from "@distube/ytdl-core";
+import ffmpeg from "fluent-ffmpeg";
 import { join } from "path";
 import slugify from "slugify";
-import ytdl from "@distube/ytdl-core";
 import { config } from "./configuration";
-import ffmpeg from "fluent-ffmpeg";
 
 export const downloadTrack = async (url: string): Promise<ytdl.videoInfo> => {
   let metas = await ytdl.getInfo(url);
