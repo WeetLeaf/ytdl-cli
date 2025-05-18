@@ -1,8 +1,9 @@
 import { Command } from "commander";
 import Conf from "conf";
 import { existsSync, mkdirSync } from "fs";
+import packageJson from "../../package.json";
 
-export const conf = new Conf<ConfigType>();
+export const conf = new Conf<ConfigType>({ projectName: packageJson.name });
 
 export const handleConfiguration = (options: CliOpts, program: Command) => {
   if (options.config) {
